@@ -16,6 +16,12 @@ Therefore, theoretical models fitted to sparse measurements,
 such as those developed in \citet{Stern1994}, 
 offer the best estimate of the \QE\ in the \FUV\ and \EUV.
 
+Fano noise \citep{Fano1947}, 
+the unavoidable variation in the number of electrons measured per photon, 
+is even more difficult to measure and less studied than the \QE, 
+despite being predicted to have significant variations as a function of
+wavelength \citep{Santos1991,Fraser1994}.
+
 In this work, we explore the consequences of the \citet{Stern1994} model by
 developing an analytic expression for the \SNR\ implied by their model, and
 investigate its effects on the \IRIS\ \FUV\ spectrograph channel.
