@@ -2,7 +2,7 @@ import astropy.units as u
 import named_arrays as na
 
 __all__ = [
-    "wavelength"
+    "wavelength",
 ]
 
 
