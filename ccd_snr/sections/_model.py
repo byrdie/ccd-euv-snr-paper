@@ -15,32 +15,43 @@ In this work, we will model the light-sensitive region of the backilluminated
 sensor as a epitaxial silicon layer with a thickness $D$, which is coated
 with a thin oxide layer of thickness $\delta$ to provide a realistic transmission 
 coefficient.
-The illuminated side of the epitaxial layer is considered to be implanted with ions
-up to a depth $W$ to create the electric field within the sensor."""
+The illuminated side of the epitaxial layer is considered to have a \PCC\ region
+of width $W$, where some of the generated photoelectrons recombine before being
+measured by the senor. 
+"""
     )
     subsection_qe = aastex.Subsection("Quantum Efficiency")
     subsection_qe.append(
         r"""
-The \QE\ is a common performance metric for measuring sensor sensitivity and is
+\QE\ is the average number of photoelectrons measured per photon and is a common 
+performance metric for measuring sensor sensitivity.
+It is given in \citet{Janesick2001} as
 \begin{equation} \label{quantum-efficiency}
     \text{QE}(\lambda) = \frac{N_{e}}{N_\gamma}
-                       = T(\lambda) \times \text{IQY}(\lambda) \times \text{CCE}(\lambda),
+                       = A(\lambda) \times \text{IQY}(\lambda) \times \text{CCE}(\lambda),
 \end{equation}
 where $N_e$ is the number of electrons measured by the sensor for a 
 given wavelength $\lambda$,
 $N_\gamma$ is the total number of photons incident on the sensor,
-$T(\lambda)$ is the transmissivity of the vacuum/SiO$_2$/Si interface , 
+$A(\lambda)$ is the fraction of incident energy absorbed by the epitaxial layer, 
 $\text{IQY}(\lambda)$ is the ideal \QY, the number of photoelectrons generated 
 per absorbed photon,
 and $\text{CCE}(\lambda)$ is the charge-collection efficiency, the fraction of 
 photoelectrons measured by the sensor.
 
-$T(\lambda)$ can be determined from the optical constants, using, for example, 
-the IMD code \citep{Windt1998}.
+The absorbance $A(\lambda)$ can be determined from the optical constants, using, 
+for example, the popular IMD code \citep{Windt1998}.
 For this work, we used our software, \texttt{optika} \citep{optika}, 
 which has a convenient Python interface and uses
 the transfer matrix method described in \citet{Yeh1988} with the optical constants
-from \citet{Palik1997} and \cite{Henke1993}.
+from \citet{Palik1997} and \cite{Henke1993} to compute the electric field for
+every interface in a multilayer stack.
+In \citet{Stern1994}, the authors assume no reflections from the unilluminated
+side of the sensor for simplicity.
+In this work, we compute the total change in Poynting flux into and out of the 
+light-sensitive region of the sensor to determine $A(\lambda)$.
+This treatment introduces interference effects for infrared wavelengths, 
+which can be seen on the right side of Figure \ref{fig:eqe}.
 
 The ideal \QY\ is given by \citet{Janesick2001} as
 \begin{equation}
@@ -55,7 +66,7 @@ $E_\text{g} = \bandgapEnergy$ is the bandgap energy of silicon,
 and $E_\text{eh} = \electronHoleEnergy$ is the energy required to generate one
 electron-hole pair at room temperature.
 
-In \citet{Stern1994}, the \CCE\ is expressed in terms of differential \CCE,
+In \citet{Stern1994}, the \CCE\ is expressed in terms of a differential \CCE,
 $\eta(z)$, which is the fraction of photoelectrons collected for a photon 
 absorbed at a depth $z$ into the epitaxial layer.
 The total \CCE\ is then the average differential \CCE\ weighted by 
@@ -74,21 +85,20 @@ the differential \CCE,
 \begin{equation} \label{differential-cce}
     \eta(z) = \begin{cases}
         \eta_0 + (1 - \eta_0) z / W, & 0 < z < W \\
-        1, & W < z < D \\
-        0, & D < z < \infty
+        1, & W < z < \infty
     \end{cases}
 \end{equation}
 where $\eta_0$ is the differential \CCE\ at the back surface of the sensor.
 Plugging Equation \ref{differential-cce} into Equation \ref{cce} yields an
 arithmetic expression for the \CCE,
 \begin{equation}
-    \text{CCE}(\lambda) = \eta_0 + \left( \frac{1 - \eta_0}{\alpha W} \right)(1 - e^{-\alpha W}) - e^{-\alpha D},
+    \text{CCE}(\lambda) = \eta_0 + \left( \frac{1 - \eta_0}{\alpha W} \right)(1 - e^{-\alpha W}),
 \end{equation}
 which can be used in Equation \ref{quantum-efficiency} to determine the \QE.
 
 In \citet{Stern1994}, the authors define an effective \QE\ as
 \begin{equation} \label{eqe}
-    \text{EQE}(\lambda) = T(\lambda) \times \text{CCE}(\lambda),
+    \text{EQE}(\lambda) = A(\lambda) \times \text{CCE}(\lambda),
 \end{equation}
 which is the quantity that is typically measured when calibrating a image sensor
 \citep{Stern1994,Stern2004,Boerner2012}.
@@ -107,7 +117,7 @@ example.
     subsubsection_noise_shot.append(ccd_snr.figures.probability_measurement())
     subsubsection_noise_shot.append(
         r"""
-Ultraviolet solar astronomy is often shot-noise limited \citep{Lemen2012, DePontieu2014}.
+\UV\ solar astronomy is often shot-noise limited \citep{Lemen2012, DePontieu2014}.
 The shot noise is described by a Poisson distribution with variance, 
 $\left< N_{\gamma,\text{m}} \right>$, 
 the expectation value of the number of photons measured by the sensor.
@@ -115,12 +125,12 @@ A critical point of this study is that $\left< N_{\gamma,\text{m}} \right>$
 includes every photon for which at least one photoelectron is measured.
         
 $\left< N_{\gamma,\text{m}} \right>$ can be expressed as a product of
-the transmissivity of the sensor's back surface,
-the probability that an absorbed photon will result in at least one electron being measured by the sensor, 
-$P_\text{m}(\lambda)$,
+the fraction of incident energy absorbed by the light-sensitive layer,
+the probability that an absorbed photon will result in at least one electron
+being measured by the sensor, $P_\text{m}(\lambda)$,
 and the total number of incident photons, $N_\gamma$:
 \begin{equation}
-    \left< N_{\gamma,\text{m}} \right> = T(\lambda) P_\text{m}(\lambda) N_\gamma.
+    \left< N_{\gamma,\text{m}} \right> = A(\lambda) P_\text{m}(\lambda) N_\gamma.
 \end{equation}
 The fraction of photons which result in photoelectrons that completely recombine
 before being measured, $P_\text{r}(\lambda) = 1 - P_\text{m}(\lambda)$,
@@ -135,21 +145,23 @@ For long wavelengths,
 $P_\text{m}(\lambda) \approx \text{CCE}(\lambda)$
 since the ideal \QY\ is unity, and for short wavelengths, 
 $P_\text{m}(\lambda) \approx 1$ since the ideal \QY\ is large.
-However, in ultraviolet wavelengths, $P_\text{m}(\lambda)$ is more complicated
+However, in \UV\ wavelengths, $P_\text{m}(\lambda)$ is more complicated
 and smoothly connects these two extremes. 
 """
     )
     subsection_noise.append(subsubsection_noise_shot)
     subsubsection_noise_fano = aastex.Subsubsection("Fano Noise")
+    subsubsection_noise_fano.append(ccd_snr.figures.noise_discretization())
     subsubsection_noise_fano.append(
         r"""
 The Fano noise for silicon is commonly accepted to have a Fano factor of about 0.1.
 This is usually measured with X-rays from $^{55}$Fe sources which have a high \QY.
-For ultraviolet wavelengths, where the \QY\ is much lower, it becomes impossible
+For \UV\ wavelengths, where the \QY\ is much lower, it becomes impossible
 to construct a distribution narrow enough to be consistent with a Fano factor 
 that small.
 """
     )
+
     subsection_noise.append(subsubsection_noise_fano)
     subsubsection_noise_recombination = aastex.Subsubsection("Recombination Noise")
     subsection_noise.append(subsubsection_noise_recombination)

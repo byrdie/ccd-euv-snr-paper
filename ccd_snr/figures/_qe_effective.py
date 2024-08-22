@@ -30,26 +30,41 @@ def qe_effective() -> aastex.Figure:
         normal=na.Cartesian3dVectorArray(0, 0, -1),
     )
 
+    absorbance = ccd.absorbance(
+        rays=optika.rays.RayVectorArray(
+            wavelength=wavelength,
+            direction=na.Cartesian3dVectorArray(0, 0, 1),
+        ),
+        normal=na.Cartesian3dVectorArray(0, 0, -1),
+    )
+
     fig, ax = plt.subplots(
         figsize=(aastex.column_width_inches, 2.5),
         constrained_layout=True,
-    )
-    na.plt.plot(
-        wavelength,
-        eqe,
-        ax=ax,
-        label=r"empirical fit",
     )
     na.plt.scatter(
         eqe_measured.inputs,
         eqe_measured.outputs,
         ax=ax,
-        label="measurement",
+        label="EQE measurement",
         s=10,
     )
+    na.plt.plot(
+        wavelength,
+        eqe,
+        ax=ax,
+        label=r"EQE fit",
+    )
+    na.plt.plot(
+        wavelength,
+        absorbance.average,
+        ax=ax,
+        label=r"absorbance model",
+    )
+
     ax.set_xscale("log")
     ax.set_xlabel(f"wavelength ({wavelength.unit:latex_inline})")
-    ax.set_ylabel("effective quantum efficiency")
+    ax.set_ylabel("incident energy fraction")
     ax.legend()
 
     result.append(aastex.NoEscape(r"\vspace{5pt}"))
@@ -64,6 +79,8 @@ $\eta_0 = \backsurfaceCCE$,
 $\delta = \oxideThickness$,
 $W = \implantThickness$,
 and $D = \substrateThickness$.
+Also plotted is the modeled absorbance of the epitaxial layer associated with
+the effective \QE\ fit.
 """
         )
     )
