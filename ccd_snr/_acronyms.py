@@ -12,6 +12,7 @@ def acronyms() -> list[aastex.Acronym]:
     return [
         aastex.Acronym("CCD", "charge-coupled device", plural=True),
         aastex.Acronym("CMOS", "complementary metal–oxide–semiconductor"),
+        aastex.Acronym("UV", "ultraviolet"),
         aastex.Acronym("FUV", "far ultraviolet"),
         aastex.Acronym("EUV", "extreme ultraviolet"),
         aastex.Acronym("CCE", "charge-collection efficiency"),
@@ -20,4 +21,5 @@ def acronyms() -> list[aastex.Acronym]:
         aastex.Acronym("SNR", "signal-to-noise ratio"),
         aastex.Acronym("AIA", "the Atmospheric Imaging Assembly"),
         aastex.Acronym("IRIS", "the Interface Region Imaging Spectrograph"),
+        aastex.Acronym("PCC", "partial-charge collection"),
     ]

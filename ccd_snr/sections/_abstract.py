@@ -9,10 +9,10 @@ def abstract() -> aastex.Abstract:
     result = aastex.Abstract()
     result.append(
         r"""
-Silicon-based image sensors are a critical component for solar \EUV\ astronomy.
+Silicon-based imaging sensors are a critical component for solar \UV\ astronomy.
 Their high sensitivity and low noise are important for making solar
-\EUV\ telescopes practical.
-However, \EUV\ light is unique compared to other components of the
+\UV\ telescopes practical.
+However, \UV\ light is unique compared to other components of the
 electromagnetic spectrum since it has both a shallow penetration depth
 into the silicon substrate, and liberates more than one electron per
 photon.
