@@ -1,6 +1,7 @@
 import numpy as np
 import optika
 import aastex
+import ccd_snr
 
 __all__ = [
     "variables",
@@ -12,7 +13,7 @@ def variables() -> list[aastex.Command]:
     A list of numeric variables used in this article.
     """
 
-    ccd = optika.sensors.E2VCCDAIAMaterial()
+    ccd = ccd_snr.ccd()
 
     return [
         aastex.Variable(

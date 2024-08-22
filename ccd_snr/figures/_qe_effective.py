@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
-import astropy.units as u
 import named_arrays as na
 import optika
 import aastex
+import ccd_snr
 
 __all__ = [
     "qe_effective",
@@ -16,11 +16,11 @@ def qe_effective() -> aastex.Figure:
 
     result = aastex.Figure("eqe", position="htb!")
 
-    ccd = optika.sensors.E2VCCDAIAMaterial()
+    ccd = ccd_snr.ccd()
 
     eqe_measured = ccd.quantum_efficiency_measured
 
-    wavelength = na.geomspace(10, 10000, axis="wavelength", num=1001) * u.AA
+    wavelength = ccd_snr.wavelength()
 
     eqe = ccd.quantum_efficiency_effective(
         rays=optika.rays.RayVectorArray(

@@ -3,6 +3,7 @@ import astropy.units as u
 import named_arrays as na
 import optika
 import aastex
+import ccd_snr
 
 __all__ = [
     "probability_measurement",
@@ -11,13 +12,20 @@ __all__ = [
 
 def probability_measurement() -> aastex.Figure:
 
-    wavelength = na.geomspace(10, 10000, axis="wavelength", num=1001) * u.AA
+    wavelength = ccd_snr.wavelength()
 
-    absorption = optika.chemicals.Chemical("Si").absorption(wavelength)
+    ccd = ccd_snr.ccd()
 
-    cce = optika.sensors.charge_collection_efficiency(absorption)
+    iqy = ccd.quantum_yield_ideal(wavelength)
+    iqy = iqy.to(u.electron / u.photon).value
 
-    iqy = optika.sensors.quantum_yield_ideal(wavelength)
+    cce = ccd.charge_collection_efficiency(
+        rays=optika.rays.RayVectorArray(
+            wavelength=wavelength,
+            direction=na.Cartesian3dVectorArray(0, 0, 1),
+        ),
+        normal=na.Cartesian3dVectorArray(0, 0, -1),
+    )
 
     p_r = (1 - cce) ** iqy
     p_m = 1 - p_r
