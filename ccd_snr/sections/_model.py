@@ -17,7 +17,9 @@ with a thin oxide layer of thickness $\delta$ to provide a realistic transmissio
 coefficient.
 The illuminated side of the epitaxial layer is considered to have a \PCC\ region
 of width $W$, where some of the generated photoelectrons recombine before being
-measured by the senor. 
+measured by the senor.
+In Section \ref{subsec:ShotNoise} we will see how partial-charge collection
+affects the shot noise measured by an imaging sensor.
 """
     )
     subsection_qe = aastex.Subsection("Quantum Efficiency")
@@ -133,11 +135,12 @@ the probability that an absorbed photon will result in at least one electron
 being measured by the sensor, $P_\text{m}(\lambda)$,
 and the total number of incident photons, $N_\gamma$:
 \begin{equation}
-    \left< N_{\gamma,\text{m}} \right> = A(\lambda) P_\text{m}(\lambda) N_\gamma.
+    \left< N_{\gamma,\text{m}} \right> = N_\gamma A(\lambda) P_\text{m}(\lambda).
 \end{equation}
-The fraction of photons which result in photoelectrons that completely recombine
-before being measured, $P_\text{r}(\lambda) = 1 - P_\text{m}(\lambda)$,
-is given by
+Partial charge collection raises the prospect that a photon absorbed in the 
+epitaxial layer might not be detected at all.
+The fraction of photons for which all photoelectrons are recombined before being 
+measured, $P_\text{r}(\lambda) = 1 - P_\text{m}(\lambda)$, is given by
 \begin{equation}
     P_\text{r}(\lambda) = \left[ 1 - \text{CCE}(\lambda) \right]^{\text{IQY}(\lambda)}.
 \end{equation}
