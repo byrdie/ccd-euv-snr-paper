@@ -11,7 +11,7 @@ __all__ = [
 ]
 
 
-def fano_factor(
+def _fano_factor(
     a: na.AbstractArray,
     axis: None | str | tuple[str],
 ):
@@ -51,7 +51,7 @@ def fano_factor() -> aastex.Figure:
     photons_measured = electrons_measured / qe
     # photons_measured = electrons_measured / (iqy * cce)
 
-    fano_total = fano_factor(photons_measured, axis="experiment")
+    fano_total = _fano_factor(photons_measured, axis="experiment")
 
     fig, ax = plt.subplots(
         figsize=(aastex.column_width_inches, 2.5),
