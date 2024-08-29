@@ -17,7 +17,7 @@ with a thin oxide layer of thickness $\delta$ to provide a realistic transmissio
 coefficient.
 The illuminated side of the epitaxial layer is considered to have a \PCC\ region
 of width $W$, where some of the generated photoelectrons recombine before being
-measured by the senor.
+measured by the sensor.
 In Section \ref{subsec:ShotNoise} we will see how partial-charge collection
 affects the shot noise measured by an imaging sensor.
 """
