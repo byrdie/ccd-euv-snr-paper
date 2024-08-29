@@ -54,12 +54,15 @@ def qe_effective() -> aastex.Figure:
         eqe,
         ax=ax,
         label=r"EQE fit",
+        zorder=10,
     )
     na.plt.plot(
         wavelength,
         absorbance.average,
         ax=ax,
         label=r"absorbance model",
+        color="red",
+        alpha=0.5,
     )
 
     ax.set_xscale("log")
