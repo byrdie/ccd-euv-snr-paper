@@ -79,7 +79,8 @@ def fano_factor() -> aastex.Figure:
     result.add_caption(
         aastex.NoEscape(
             r"""
-The Fano factor associated with electron discretization noise.
+The Fano factor for all the different noise sources discussed in this study and
+their sum.
 """
         )
     )
