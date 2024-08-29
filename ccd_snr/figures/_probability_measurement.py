@@ -16,19 +16,15 @@ def probability_measurement() -> aastex.Figure:
 
     ccd = ccd_snr.ccd()
 
-    iqy = ccd.quantum_yield_ideal(wavelength)
-    iqy = iqy.to(u.electron / u.photon).value
-
-    cce = ccd.charge_collection_efficiency(
-        rays=optika.rays.RayVectorArray(
-            wavelength=wavelength,
-            direction=na.Cartesian3dVectorArray(0, 0, 1),
-        ),
-        normal=na.Cartesian3dVectorArray(0, 0, -1),
+    rays = optika.rays.RayVectorArray(
+        wavelength=wavelength,
+        direction=na.Cartesian3dVectorArray(0, 0, 1),
     )
+    normal = na.Cartesian3dVectorArray(0, 0, -1)
 
-    p_r = (1 - cce) ** iqy
-    p_m = 1 - p_r
+    cce = ccd.charge_collection_efficiency(rays, normal)
+
+    p_m = ccd.probability_measurement(rays, normal)
 
     fig, ax = plt.subplots(
         figsize=(aastex.column_width_inches, 2.5),
