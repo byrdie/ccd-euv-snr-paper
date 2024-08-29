@@ -60,7 +60,7 @@ The ideal \QY\ is given by \citet{Janesick2001} as
     \text{IQY}(\lambda) = \begin{cases}
         0, & 0 < \epsilon < E_\text{g} \\
         1, & E_\text{g} < \epsilon < E_\text{eh} \\
-        E_\text{eh} / \epsilon, & E_\text{eh} < \epsilon < \infty,
+        \epsilon / E_\text{eh}, & E_\text{eh} < \epsilon < \infty,
     \end{cases}
 \end{equation}
 where $\epsilon$ is the energy of an incident photon, 
@@ -84,7 +84,8 @@ where $\alpha$ is the absorption coefficient of silicon for the given wavelength
 
 In principle, $\eta(z)$ is a function of the exact implant profile which is
 usually impractical to measure, but see \cite{Stern2004} for a case where the
-authors did have a measurement of the exact implant profile.
+authors did have a measurement of the exact implant profile provided by the
+manufacturer.
 In \citet{Stern1994}, the authors instead adopt a piecewise-linear approximation of
 the differential \CCE,
 \begin{equation} \label{differential-cce}
