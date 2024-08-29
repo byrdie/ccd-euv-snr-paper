@@ -158,7 +158,7 @@ and smoothly connects these two extremes.
     )
     subsection_noise.append(subsubsection_noise_shot)
     subsubsection_noise_fano = aastex.Subsubsection("Fano Noise")
-    subsubsection_noise_fano.append(ccd_snr.figures.noise_discretization())
+    subsubsection_noise_fano.append(ccd_snr.figures.fano_factor())
     subsubsection_noise_fano.append(
         r"""
 The Fano noise for silicon is commonly accepted to have a Fano factor of about 0.1.

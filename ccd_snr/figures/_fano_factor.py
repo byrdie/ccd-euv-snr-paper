@@ -7,18 +7,32 @@ import aastex
 import ccd_snr
 
 __all__ = [
-    "noise_discretization",
+    "fano_factor",
 ]
 
 
-def noise_discretization() -> aastex.Figure:
+def fano_factor(
+    a: na.AbstractArray,
+    axis: None | str | tuple[str],
+):
+    return np.var(a, axis=axis) / np.mean(a, axis=axis)
+
+
+def fano_factor() -> aastex.Figure:
 
     ccd = ccd_snr.ccd()
 
     wavelength = ccd_snr.wavelength()
 
-    iqy = optika.sensors.quantum_yield_ideal(wavelength)
+    iqy = ccd.quantum_yield_ideal(wavelength)
     iqy = iqy.to(u.electron / u.photon).value
+
+    rays = optika.rays.RayVectorArray(
+        intensity=na.broadcast_to(100 * u.photon, dict(experiment=1000)),
+        wavelength=wavelength,
+        direction=na.Cartesian3dVectorArray(0, 0, 1),
+    )
+    normal = na.Cartesian3dVectorArray(0, 0, -1)
 
     a = np.floor(iqy)
     b = np.ceil(iqy)
@@ -30,18 +44,14 @@ def noise_discretization() -> aastex.Figure:
 
     fano_discretization = variance / iqy
 
-    electrons_measured = ccd.electrons_measured(
-        rays=optika.rays.RayVectorArray(
-            intensity=na.broadcast_to(1000 * u.photon, dict(experiment=10000)),
-            wavelength=wavelength,
-            direction=na.Cartesian3dVectorArray(0, 0, 1),
-        ),
-        normal=na.Cartesian3dVectorArray(0, 0, -1),
-    )
+    qe = ccd.quantum_efficiency(rays, normal)
 
-    mean_total = electrons_measured.mean("experiment")
-    variance_total = np.var(electrons_measured, axis="experiment")
-    fano_total = mean_total / variance_total
+    electrons_measured = ccd.electrons_measured(rays, normal)
+
+    photons_measured = electrons_measured / qe
+    # photons_measured = electrons_measured / (iqy * cce)
+
+    fano_total = fano_factor(photons_measured, axis="experiment")
 
     fig, ax = plt.subplots(
         figsize=(aastex.column_width_inches, 2.5),
