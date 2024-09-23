@@ -31,7 +31,7 @@ and \citet{Heymes2020}."""
         tabular.add_row(
             [
                 "Source",
-                rf"$\eta_0$",
+                r"$\eta_0$",
                 rf"$W$ ({unit:latex_inline})",
                 rf"$\delta$ ({unit:latex_inline})",
                 rf"$D$ ({unit_substrate:latex_inline})",
