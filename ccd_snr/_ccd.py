@@ -1,5 +1,6 @@
 import functools
 import optika
+
 __all__ = [
     "ccd",
     "ccd_aia",
