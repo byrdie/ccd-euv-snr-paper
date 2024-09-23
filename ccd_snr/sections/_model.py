@@ -9,6 +9,8 @@ import ccd_snr.figures
 
 def model() -> aastex.Section:
     result = aastex.Section("CCD Model")
+    result.append(ccd_snr.figures.qe_effective())
+    result.append(ccd_snr.tables.models())
     result.append(
         r"""
 In this work, we will model the light-sensitive region of the backilluminated 
@@ -115,7 +117,6 @@ We will use these fit parameters in the remainder of this article as a represent
 example.
 """
     )
-    subsection_qe.append(ccd_snr.figures.qe_effective())
     result.append(subsection_qe)
 
     subsection_noise = aastex.Subsection("Noise")
