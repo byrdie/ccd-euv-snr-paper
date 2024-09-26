@@ -33,16 +33,17 @@ have significant width \citep{Santos1991} and skew \citep{Fraser1994}
 variations as a function of wavelength.
 Since the Fano noise in silicon is so small,
 this work will use a very simple model of constant Fano noise,
-which still exhibits the width variations observed in \citep{Santos1991}
+which still exhibits the width variations observed in \citet{Santos1991}
 since \UV\ photons produce very few photoelectrons.
 
 We will use these two noise sources along with a simple absorbance calculation
 to model a silicon imaging sensor and to develop an analytic
 expression for the expected noise measured by this sensor as a function of
 the mean signal.
-This model will be applied to predict the noise measured by \AIA\ and \IRIS,
+This model will be applied to predict the noise measured by some typical solar
+\UV\ instruments,
 and we will also compare our results to some unexpected noise measurements in
-\citet{Wulser2018}.
+\IRIS\ \citep{Wulser2018}.
 """
     )
     return result
