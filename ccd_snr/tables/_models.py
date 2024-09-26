@@ -14,9 +14,11 @@ def models() -> pylatex.Table:
     result._star_latex_name = True
 
     result.add_caption(
-        r"""
+        pylatex.NoEscape(
+            r"""
 The sensor model parameters which best fit the measurements in \citet{Boerner2012}
 and \citet{Heymes2020}."""
+        )
     )
     result.append(pylatex.Label("table:models"))
 
