@@ -13,5 +13,5 @@ def ccd() -> optika.sensors.E2VCCD97Material:
 
 
 @functools.cache
-def ccd_aia() -> optika.sensors.E2VCCDAIAMaterial:
-    return optika.sensors.E2VCCDAIAMaterial()
+def ccd_aia() -> optika.sensors.E2VCCD203Material:
+    return optika.sensors.E2VCCD203Material()
