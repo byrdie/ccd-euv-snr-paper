@@ -23,6 +23,7 @@ def qe_effective() -> aastex.Figure:
     eqe_measured_aia = ccd_aia.quantum_efficiency_measured
 
     wavelength = ccd_snr.wavelength()
+    energy = ccd_snr.energy()
 
     rays = optika.rays.RayVectorArray(
         wavelength=wavelength,
@@ -38,6 +39,8 @@ def qe_effective() -> aastex.Figure:
         figsize=(aastex.text_width_inches, 4),
         constrained_layout=True,
     )
+    ax2 = ax.twiny()
+    ax2.invert_xaxis()
     na.plt.scatter(
         eqe_measured.inputs,
         eqe_measured.outputs,
@@ -50,6 +53,12 @@ def qe_effective() -> aastex.Figure:
         eqe,
         ax=ax,
         label=r"_Heymes et al. (2020) fit",
+    )
+    na.plt.plot(
+        energy,
+        eqe,
+        ax=ax2,
+        linestyle="None",
     )
     na.plt.scatter(
         eqe_measured_aia.inputs,
@@ -66,7 +75,9 @@ def qe_effective() -> aastex.Figure:
     )
 
     ax.set_xscale("log")
+    ax2.set_xscale("log")
     ax.set_xlabel(f"wavelength ({wavelength.unit:latex_inline})")
+    ax2.set_xlabel(f"energy ({energy.unit:latex_inline})")
     ax.set_ylabel("effective quantum efficiency")
     ax.legend()
 
