@@ -12,6 +12,7 @@ __all__ = [
 def probability_measurement() -> aastex.Figure:
 
     wavelength = ccd_snr.wavelength()
+    energy = ccd_snr.energy()
 
     ccd = ccd_snr.ccd()
 
@@ -29,11 +30,18 @@ def probability_measurement() -> aastex.Figure:
         figsize=(aastex.column_width_inches, 2.5),
         constrained_layout=True,
     )
+    ax2 = ax.twiny()
+    ax2.invert_xaxis()
     na.plt.plot(
         wavelength,
         cce,
         ax=ax,
         label=r"$\mathrm{CCE}(\lambda)$",
+    )
+    na.plt.plot(
+        energy,
+        cce,
+        ax=ax2,
     )
     na.plt.plot(
         wavelength,
@@ -42,7 +50,9 @@ def probability_measurement() -> aastex.Figure:
         label=r"$P_\mathrm{m}(\lambda)$",
     )
     ax.set_xscale("log")
+    ax2.set_xscale("log")
     ax.set_xlabel(f"wavelength ({wavelength.unit:latex_inline})")
+    ax2.set_xlabel(f"energy ({energy.unit:latex_inline})", labelpad=8)
     ax.set_ylabel("probability")
     ax.legend()
 
