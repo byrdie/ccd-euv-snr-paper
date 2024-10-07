@@ -92,21 +92,23 @@ def fano_factor() -> pylatex.Table:
     result.escape = False
     result._star_latex_name = True
 
-    result.add_caption(pylatex.NoEscape(
+    caption = pylatex.NoEscape(
         r"""
 The ratio of the variance to the mean predicted by our model for prominent
 wavelengths in selected solar observatories 
 in both incident photon and measured electron units."""
-    ))
+    )
+    result.add_caption(caption)
 
     with result.create(pylatex.Tabular("lr|rr")) as tabular:
         tabular.escape = False
-        tabular.add_row([
+        row = [
             "Instrument",
             f"Wavelength ({u.AA:latex_inline})",
             f"Fano factor ({fano_photons_aia.unit:latex_inline})",
             f"Fano factor ({fano_electrons_aia.unit:latex_inline})",
-        ])
+        ]
+        tabular.add_row(row)
         tabular.add_hline()
         tabular.add_hline()
         for i, index in enumerate(fano_photons_aia.ndindex()):
@@ -153,4 +155,3 @@ in both incident photon and measured electron units."""
             tabular.add_row(row)
 
     return result
-
