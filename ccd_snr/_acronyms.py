@@ -22,4 +22,5 @@ def acronyms() -> list[aastex.Acronym]:
         aastex.Acronym("AIA", "the Atmospheric Imaging Assembly"),
         aastex.Acronym("IRIS", "the Interface Region Imaging Spectrograph"),
         aastex.Acronym("PCC", "partial-charge collection"),
+        aastex.Acronym("VSR", "variance-to-signal ratio"),
     ]
