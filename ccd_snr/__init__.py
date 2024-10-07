@@ -14,6 +14,7 @@ from . import sections
 from ._document import document, pdf
 
 __all__ = [
+    "fano_factor",
     "wavelength",
     "energy",
     "ccd",
