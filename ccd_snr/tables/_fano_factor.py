@@ -114,12 +114,13 @@ in both incident photon and measured electron units."""
                 instrument = r"\AIA"
             else:
                 instrument = ""
-            tabular.add_row([
+            row = [
                 instrument,
                 f"{wavelength_aia[index].ndarray.to_value(u.AA):.0f}",
                 f"{fano_photons_aia[index].ndarray.real.to_value(u.ph):.2f}",
                 f"{fano_electrons_aia[index].ndarray.to_value(u.electron):.2f}",
-            ])
+            ]
+            tabular.add_row(row)
 
         tabular.add_hline()
 
@@ -128,12 +129,13 @@ in both incident photon and measured electron units."""
                 instrument = r"\IRIS"
             else:
                 instrument = ""
-            tabular.add_row([
+            row = [
                 instrument,
                 f"{wavelength_iris[index].ndarray.to_value(u.AA):.0f}",
                 f"{fano_photons_iris[index].ndarray.real.to_value(u.ph):.2f}",
                 f"{fano_electrons_iris[index].ndarray.to_value(u.electron):.2f}",
-            ])
+            ]
+            tabular.add_row(row)
 
         tabular.add_hline()
 
@@ -142,12 +144,13 @@ in both incident photon and measured electron units."""
                 instrument = r"MUSE"
             else:
                 instrument = ""
-            tabular.add_row([
+            row = [
                 instrument,
                 f"{wavelength_muse[index].ndarray.to_value(u.AA):.0f}",
                 f"{fano_photons_muse[index].ndarray.real.to_value(u.ph):.2f}",
                 f"{fano_electrons_muse[index].ndarray.to_value(u.electron):.2f}",
-            ])
+            ]
+            tabular.add_row(row)
 
     return result
 
