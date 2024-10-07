@@ -178,4 +178,5 @@ that small.
     subsubsection_noise_recombination = aastex.Subsubsection("Recombination Noise")
     subsection_noise.append(subsubsection_noise_recombination)
     result.append(subsection_noise)
+    result.append(ccd_snr.tables.fano_factor())
     return result

@@ -2,6 +2,7 @@
 Create the figures and compile the LaTeX files for this article.
 """
 
+from ._fano_factor import fano_factor
 from ._wavelength import wavelength, energy
 from ._ccd import ccd, ccd_aia
 from ._acronyms import acronyms
