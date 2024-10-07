@@ -20,8 +20,10 @@ coefficient.
 The illuminated side of the epitaxial layer is considered to have a \PCC\ region
 of width $W$, where some of the generated photoelectrons recombine before being
 measured by the sensor.
-In Section \ref{subsec:ShotNoise} we will see how partial-charge collection
-affects the shot noise measured by an imaging sensor.
+\PCC\ is usually described by quantity called \CCE, the fraction of 
+photoelectrons which do \textit{not} recombine and are measured by the sensor.
+In Section \ref{subsec:Noise} we will see how \PCC\
+affects the variance of the signal measured by an imaging sensor.
 """
     )
     subsection_qe = aastex.Subsection("Quantum Efficiency")
@@ -38,18 +40,17 @@ where $N_e$ is the number of electrons measured by the sensor for a
 given wavelength $\lambda$,
 $N_\gamma$ is the total number of photons incident on the sensor,
 $A(\lambda)$ is the fraction of incident energy absorbed by the epitaxial layer, 
-$\text{IQY}(\lambda)$ is the ideal \QY, the number of photoelectrons generated 
-per absorbed photon,
-and $\text{CCE}(\lambda)$ is the charge-collection efficiency, the fraction of 
-photoelectrons measured by the sensor.
+and $\text{IQY}(\lambda)$ is the ideal \QY, the number of photoelectrons generated 
+per absorbed photon.
 
-The absorbance $A(\lambda)$ can be determined from the optical constants, using, 
-for example, the popular IMD code \citep{Windt1998}.
-For this work, we used our software, \texttt{optika} \citep{optika}, 
-which has a convenient Python interface and uses
-the transfer matrix method described in \citet{Yeh1988} with the optical constants
-from \citet{Palik1997} and \cite{Henke1993} to compute the electric field for
-every interface in a multilayer stack.
+The absorbance $A(\lambda)$ can be determined from the optical constants of Si 
+and $\text{SiO}_2$, using, for example, the popular IMD code \citep{Windt1998}.
+For this work, we used our Python library, 
+\texttt{optika} \citep{optika}, 
+which uses the transfer matrix method described in \citet{Yeh1988} 
+with the optical constants from \citet{Palik1997}, \citet{Henke1993}, and 
+\citet{Rodriguez-deMarcos2016} to compute the electric field for every interface
+in the sensor.
 In \citet{Stern1994}, the authors assume no reflections from the unilluminated
 side of the sensor for simplicity.
 In this work, we compute the total change in Poynting flux into and out of the 
@@ -85,11 +86,11 @@ the probability of absorbing a photon at a depth $z$,
 where $\alpha$ is the absorption coefficient of silicon for the given wavelength.
 
 In principle, $\eta(z)$ is a function of the exact implant profile which is
-usually impractical to measure, but see \cite{Stern2004} for a case where the
-authors did have a measurement of the exact implant profile provided by the
-manufacturer.
-In \citet{Stern1994}, the authors instead adopt a piecewise-linear approximation of
-the differential \CCE,
+usually impractical to measure, but see \cite{Stern2004,Boerner2012} for a case 
+where the authors did have a measurement of the exact implant profile provided 
+by the manufacturer.
+In \citet{Stern1994}, the authors instead adopt a piecewise-linear approximation 
+of the differential \CCE,
 \begin{equation} \label{differential-cce}
     \eta(z) = \begin{cases}
         \eta_0 + (1 - \eta_0) z / W, & 0 < z < W \\
@@ -154,7 +155,10 @@ $P_\text{m}(\lambda) \approx \text{CCE}(\lambda)$
 since the ideal \QY\ is unity, and for short wavelengths, 
 $P_\text{m}(\lambda) \approx 1$ since the ideal \QY\ is large.
 However, in \UV\ wavelengths, $P_\text{m}(\lambda)$ is more complicated
-and smoothly connects these two extremes. 
+and smoothly connects these two extremes.
+Where $P_m < 1$ (in the \UV\ and visible) the Fano factor,
+as measured from the front face of the sensor,
+will be much larger than unity since fewer photons are detected in this region.
 """
     )
     subsection_noise.append(subsubsection_noise_shot)
