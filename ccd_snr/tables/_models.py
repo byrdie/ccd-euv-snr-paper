@@ -28,11 +28,12 @@ and \citet{Heymes2020}."""
     unit = u.nm
     unit_substrate = u.um
 
-    with result.create(pylatex.Tabular("l|rrrrr")) as tabular:
+    with result.create(pylatex.Tabular("l|l|rrrrr")) as tabular:
         tabular.escape = False
         tabular.add_row(
             [
                 "Source",
+                "implementation",
                 r"$\eta_0$",
                 rf"$W$ ({unit:latex_inline})",
                 rf"$\delta$ ({unit:latex_inline})",
@@ -44,6 +45,7 @@ and \citet{Heymes2020}."""
         tabular.add_row(
             [
                 "\citet{Boerner2012}",
+                r"\href{https://optika.readthedocs.io/en/latest/_autosummary/optika.sensors.E2VCCD203Material.html}{\texttt{E2VCCD203Material}}",
                 f"{ccd_aia.cce_backsurface:0.3f}",
                 f"{ccd_aia.thickness_implant.to_value(unit):0.0f}",
                 f"{ccd_aia.thickness_oxide.to_value(unit):0.1f}",
@@ -54,6 +56,7 @@ and \citet{Heymes2020}."""
         tabular.add_row(
             [
                 "\citet{Heymes2020}",
+                r"\href{https://optika.readthedocs.io/en/latest/_autosummary/optika.sensors.E2VCCD97Material.html}{\texttt{E2VCCD97Material}}",
                 f"{ccd.cce_backsurface:0.3f}",
                 f"{ccd.thickness_implant.to_value(unit):0.0f}",
                 f"{ccd.thickness_oxide.to_value(unit):0.1f}",
