@@ -81,9 +81,9 @@ def fano_factor_photon() -> aastex.Figure:
     ax.set_xscale("log")
     ax2.set_xscale("log")
     ax.set_xlabel(f"wavelength ({wavelength.unit:latex_inline})")
-    ax2.set_xlabel(f"energy ({energy.unit:latex_inline}", labelpad=8)
+    ax2.set_xlabel(f"energy ({energy.unit:latex_inline})", labelpad=8)
     ax.set_ylabel("variance-to-signal ratio")
-    ax.legend()
+    ax.legend(loc="upper left")
 
     result = aastex.Figure("photon-fano-factor")
     result.add_fig(fig, width=None)

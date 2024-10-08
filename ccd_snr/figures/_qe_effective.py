@@ -82,7 +82,7 @@ def qe_effective() -> aastex.Figure:
     ax.legend()
 
     ax_inset = ax.inset_axes(
-        bounds=[0.06, 0.1, 0.3, 0.32],
+        bounds=[0.14, 0.09, 0.3, 0.32],
         xlim=(900, 3000),
         ylim=(0.07, 0.18),
     )
