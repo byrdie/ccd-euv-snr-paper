@@ -1,3 +1,4 @@
+import functools
 import astropy.units as u
 import named_arrays as na
 import optika
@@ -53,6 +54,7 @@ def rays() -> optika.rays.RayVectorArray:
     )
 
 
+@functools.cache
 def electrons_measured() -> na.ScalarArray:
     """
     The number of electrons measured by each pixel in the simulation.
@@ -61,6 +63,7 @@ def electrons_measured() -> na.ScalarArray:
     return ccd.electrons_measured(rays(), normal).intensity
 
 
+@functools.cache
 def photons_measured() -> na.ScalarArray:
     """
     The number of photons measured by each pixel in the simulation.
