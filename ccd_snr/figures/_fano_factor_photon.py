@@ -22,6 +22,7 @@ def fano_factor_photon() -> aastex.Figure:
     absorbance = ccd.absorbance(rays, normal)
     cce = ccd.charge_collection_efficiency(rays, normal)
     qe = ccd.quantum_efficiency(rays, normal)
+    eqe = ccd.quantum_efficiency_effective(rays, normal)
 
     photons_measured = ccd_snr.simulations.photons_measured()
 
@@ -33,6 +34,7 @@ def fano_factor_photon() -> aastex.Figure:
         a=photons_measured,
         axis=ccd_snr.simulations.axis_xy,
     )
+    fano_eqe = (1 / eqe) * u.photon
 
     fig, ax = plt.subplots(
         figsize=(aastex.column_width_inches, 2.5),
@@ -72,6 +74,13 @@ def fano_factor_photon() -> aastex.Figure:
         zorder=0,
     )
     na.plt.plot(
+        wavelength,
+        fano_eqe,
+        ax=ax,
+        label="naive",
+        color="gray",
+    )
+    na.plt.plot(
         energy,
         fano_shot,
         ax=ax2,
@@ -93,6 +102,8 @@ def fano_factor_photon() -> aastex.Figure:
 The total and component-wise \VSR\ for photons incident on the sensor.
 This plot is useful when designing an instrument since it demonstrates the
 noise to expect from the sensor for a given spectral radiance.
+Plotted for comparison (gray) is the \VSR\ from a naive model which assumes
+that the number of measured photons is proportional to the effective \QE.
 """
         )
     )
