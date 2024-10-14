@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import astropy.units as u
 import named_arrays as na
-import pylatex
 import aastex
 import ccd_snr
 
