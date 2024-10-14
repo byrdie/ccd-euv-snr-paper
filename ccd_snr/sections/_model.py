@@ -208,6 +208,9 @@ For this work, we will use a scaled Poisson distribution,
 which has the nice property of reproducing a Gaussian with the correct width
 at high energies while also being well-behaved around
 $\text{IQY}(\lambda) \approx 1$.
+In Figures \ref{fig:photonNoise} and \ref{fig:electronNoise} we can see the 
+contribution of Fano noise to the total noise measured by our simulated sensor.
+Note how the Fano noise component is very small compared to the photon shot noise.
 """
     )
     subsection_noise.append(subsubsection_noise_fano)
