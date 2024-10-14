@@ -184,7 +184,7 @@ $\mathcal{F}$
 \citep[\& references therein]{Fraser1994,Lowe1997,Mazziotta2008,Kotov2018,Rodrigues2021,Rodrigues2023}.
 $\mathcal{F}$ is often measured in the soft X-ray region,
 traditionally with $^{55}$Fe sources, which have a high \QY.
-For \UV\ wavelengths, where the \QY\ is much lower, it becomes impossible
+For \UV\ wavelengths, where the \QY\ is near unity, it becomes impossible
 to construct a distribution narrow enough to be consistent with a Fano factor 
 that small.
 Because this distribution does not exist,
@@ -215,6 +215,23 @@ Note how the Fano noise component is very small compared to the photon shot nois
     )
     subsection_noise.append(subsubsection_noise_fano)
     subsubsection_noise_recombination = aastex.Subsubsection("Recombination Noise")
+    subsubsection_noise_recombination.append(
+        r"""
+Recombination of photoelectrons in the \PCC\ region is a significant source of noise in
+the \UV\ since the photons are absorbed so close to the surface,
+where the \CCE\ is relatively low (Figure \ref{fig:probability}).
+The probability of measuring an electron generated in the \PCC\ region is
+described by a binomial probability mass function,
+\begin{equation}
+    P(N_\text{e} = k) = \frac{\text{QY}!}{k! (\text{QY} - k)!} \text{CCE}^k (1 - \text{CCE})^{\text{QY} - k},
+\end{equation}
+where $N_\text{e}$ is the number of electrons measured by the sensor.
+
+In Figures \ref{fig:photonNoise} and \ref{fig:electronNoise} we can see that the
+recombination noise is the dominant source of noise measured by the sensor
+in the near/far \UV\ and remains non-negligible into the \EUV.
+"""
+    )
     subsection_noise.append(subsubsection_noise_recombination)
     result.append(subsection_noise)
     result.append(ccd_snr.tables.fano_factor())
