@@ -23,5 +23,5 @@ def acronyms() -> list[aastex.Acronym]:
         aastex.Acronym("IRIS", "the Interface Region Imaging Spectrograph"),
         aastex.Acronym("PCC", "partial-charge collection"),
         aastex.Acronym("VSR", "variance-to-signal ratio"),
-        aastex.Acronym("PDF", "probability distribution function")
+        aastex.Acronym("PDF", "probability distribution function"),
     ]

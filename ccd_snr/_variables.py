@@ -43,5 +43,5 @@ def variables() -> list[aastex.Command]:
         aastex.Variable(
             name="fanoFactor",
             value=ccd.fano_noise.value,
-        )
+        ),
     ]
