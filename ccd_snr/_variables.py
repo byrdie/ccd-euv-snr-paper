@@ -40,4 +40,8 @@ def variables() -> list[aastex.Command]:
             name="substrateThickness",
             value=ccd.thickness_substrate,
         ),
+        aastex.Variable(
+            name="fanoFactor",
+            value=ccd.fano_noise.value,
+        )
     ]

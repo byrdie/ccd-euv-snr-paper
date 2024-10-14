@@ -1,15 +1,16 @@
 import matplotlib.pyplot as plt
 import astropy.units as u
 import named_arrays as na
+import pylatex
 import aastex
 import ccd_snr
 
 __all__ = [
-    "fano_factor_photon",
+    "noise_photon",
 ]
 
 
-def fano_factor_photon() -> aastex.Figure:
+def noise_photon() -> aastex.FigureStar:
 
     ccd = ccd_snr.ccd()
 
@@ -19,6 +20,7 @@ def fano_factor_photon() -> aastex.Figure:
     rays = ccd_snr.simulations.rays()
     normal = ccd_snr.simulations.normal
 
+    iqy = ccd.quantum_yield_ideal(wavelength)
     absorbance = ccd.absorbance(rays, normal)
     cce = ccd.charge_collection_efficiency(rays, normal)
     qe = ccd.quantum_efficiency(rays, normal)
@@ -29,7 +31,8 @@ def fano_factor_photon() -> aastex.Figure:
     fano_shot = 1 * u.photon
     fano_absorbance = (1 / absorbance.average - 1) * u.photon
     fano_recombination = (1 - cce) * u.electron / qe
-    fano_total = fano_shot + fano_absorbance + fano_recombination
+    fano_fano = ccd.fano_noise / iqy / absorbance.average * u.photon
+    fano_total = fano_shot + fano_absorbance + fano_recombination + fano_fano
     fano_mc = ccd_snr.fano_factor(
         a=photons_measured,
         axis=ccd_snr.simulations.axis_xy,
@@ -37,7 +40,7 @@ def fano_factor_photon() -> aastex.Figure:
     fano_eqe = (1 / eqe) * u.photon
 
     fig, ax = plt.subplots(
-        figsize=(aastex.column_width_inches, 2.5),
+        figsize=(aastex.text_width_inches, 2.5),
         constrained_layout=True,
     )
     ax2 = ax.twiny()
@@ -59,6 +62,12 @@ def fano_factor_photon() -> aastex.Figure:
         fano_recombination,
         ax=ax,
         label="recombination",
+    )
+    na.plt.plot(
+        wavelength,
+        fano_fano,
+        ax=ax,
+        label="Fano",
     )
     na.plt.plot(
         wavelength,
@@ -94,7 +103,7 @@ def fano_factor_photon() -> aastex.Figure:
     ax.set_ylabel("variance-to-signal ratio")
     ax.legend(loc="upper left")
 
-    result = aastex.Figure("photon-fano-factor")
+    result = aastex.FigureStar("photonNoise")
     result.add_fig(fig, width=None)
     result.add_caption(
         aastex.NoEscape(

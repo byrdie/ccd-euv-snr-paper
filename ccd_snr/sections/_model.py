@@ -121,8 +121,10 @@ example.
     result.append(subsection_qe)
 
     subsection_noise = aastex.Subsection("Noise")
+    subsection_noise.append(ccd_snr.figures.probability_measurement())
+    subsection_noise.append(ccd_snr.figures.noise_photon())
+    subsection_noise.append(ccd_snr.figures.noise_electron())
     subsubsection_noise_shot = aastex.Subsubsection("Shot Noise")
-    subsubsection_noise_shot.append(ccd_snr.figures.probability_measurement())
     subsubsection_noise_shot.append(
         r"""
 \UV\ solar astronomy is often shot-noise limited \citep{Lemen2012, DePontieu2014}.
@@ -163,17 +165,51 @@ will be much larger than unity since fewer photons are detected in this region.
     )
     subsection_noise.append(subsubsection_noise_shot)
     subsubsection_noise_fano = aastex.Subsubsection("Fano Noise")
-    subsubsection_noise_fano.append(ccd_snr.figures.fano_factor_photon())
     subsubsection_noise_fano.append(
         r"""
-The Fano noise for silicon is commonly accepted to have a Fano factor of about 0.1.
-This is usually measured with X-rays from $^{55}$Fe sources which have a high \QY.
+The energy resolution of silicon detectors is ultimately limited due to Fano
+noise \citep{Fano1947}, the unpredictable variation of \QY.
+Fano noise is usually expressed in terms of a Fano factor, 
+$\mathcal{F} = \sigma^2 / \mu$,
+the ratio of the variance to the mean for some random process.
+Expressing noise in this fashion is convenient because for a Poisson random
+sampling, $\mathcal{F} = 1$ (which is signal-independent, unlike the \SNR).
+
+The Fano noise for silicon is commonly accepted to have a Fano factor of about 
+$\mathcal{F} \approx 0.1$ \citep{Janesick2001}.
+In part due to variations of the Fano noise as a function of wavelength and
+temperature \citep{Fraser1994}, 
+there is some disagreement in the literature around a more precise value for
+$\mathcal{F}$ 
+\citep[\& references therein]{Fraser1994,Lowe1997,Mazziotta2008,Kotov2018,Rodrigues2021,Rodrigues2023}.
+$\mathcal{F}$ is often measured in the soft X-ray region,
+traditionally with $^{55}$Fe sources, which have a high \QY.
 For \UV\ wavelengths, where the \QY\ is much lower, it becomes impossible
 to construct a distribution narrow enough to be consistent with a Fano factor 
 that small.
+Because this distribution does not exist,
+and because $\mathcal{F}$ is so small compared to the other noise sources
+considered in this study, 
+we have decided to ignore the wavelength variation of $\mathcal{F}$,
+and adopt a Fano noise model with constant $\mathcal{F} = \fanoFactor$,
+which represents the best available measurement of $\mathcal{F}$ using $^{55}$Fe
+X-rays \citep{Rodrigues2021}, and uses a skipper CCD \citep{Janesick1990} to 
+minimize the effect of readout noise.
+
+At high energies, the \PDF\ of the Fano noise is well-described by a Gaussian
+\citep{Rodrigues2023}.
+At low energies, a Gaussian model is problematic since it becomes likely
+that $\text{IQY}(\lambda)$ will be negative for some samples.
+For this work, we will use a scaled Poisson distribution,
+\begin{equation}
+    P(\text{QY}=k) = \frac{[\text{IQY}(\lambda) / \mathcal{F}]^{\mathcal{F} k} e^{-\text{IQY}(\lambda) / \mathcal{F}}}
+                          {(\mathcal{F} k )!},
+\end{equation}
+which has the nice property of reproducing a Gaussian with the correct width
+at high energies while also being well-behaved around
+$\text{IQY}(\lambda) \approx 1$.
 """
     )
-
     subsection_noise.append(subsubsection_noise_fano)
     subsubsection_noise_recombination = aastex.Subsubsection("Recombination Noise")
     subsection_noise.append(subsubsection_noise_recombination)
