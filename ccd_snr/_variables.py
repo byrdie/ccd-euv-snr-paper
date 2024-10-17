@@ -51,5 +51,5 @@ def variables() -> list[aastex.Command]:
         aastex.Variable(
             name="depletionThickness",
             value=np.round(ccd.depletion.thickness, 1),
-        )
+        ),
     ]
