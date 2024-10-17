@@ -24,4 +24,5 @@ def acronyms() -> list[aastex.Acronym]:
         aastex.Acronym("PCC", "partial-charge collection"),
         aastex.Acronym("VSR", "variance-to-signal ratio"),
         aastex.Acronym("PDF", "probability distribution function"),
+        aastex.Acronym("MCC", "mean charge capture"),
     ]

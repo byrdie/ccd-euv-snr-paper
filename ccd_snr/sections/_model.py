@@ -233,6 +233,97 @@ in the near/far \UV\ and remains non-negligible into the \EUV.
 """
     )
     subsection_noise.append(subsubsection_noise_recombination)
+    subsubsection_charge_spreading = aastex.Subsubsection("Charge Diffusion")
+    subsubsection_charge_spreading.append(
+        r"""
+In most backilluminated imaging sensors used for \UV\ astronomy,
+the depletion region (the region with significant electric field) does not 
+penetrate all the way into the device.
+As a result, there's a so-called field-free region near the back of the sensor
+where photoelectrons must undergo a random walk to find their way to the
+depletion region where they can then be conducted to the terminals and measured
+\citep{Janesick2001}.
+This random walk generally leads to a loss of spatial resolution measured by
+the sensor since electrons can diffuse to adjacent pixels.
+It also leads to an apparent reduction in the noise measured by the sensor since
+the blurring due to this diffusion induces a correlation between neighboring 
+pixels.
+
+Using Monte Carlo modeling, \citet{Janesick2001} found the following analytic
+expression for the standard deviation of the charge diffusion kernel:
+\begin{equation}
+    \label{eq:chargeDiffusion}
+    \sigma_\text{cd}(z) = \begin{cases}
+        z_f \sqrt{1 - z / z_f}, & 0 < z < z_f \\
+        0, & z_f < z < D,
+    \end{cases}
+\end{equation} 
+where $z$ is the distance from the back surface at which the photon is absorbed,
+\begin{equation}
+    z_f = D - z_d
+\end{equation}
+is the thickness of the field-free region of the sensor,
+and $z_d$ is the thickness of the depletion region.
+Using Equation \ref{eq:chargeDiffusion},
+we can find the mean variance of the charge diffusion kernel by taking an
+average across the entire thickness of the sensor weighted by the probability of
+a photon being absorbed at that depth,
+\begin{align}
+\overline{\sigma}_\text{cd}^2 &= \frac{\int_0^D \sigma_\text{cd}^2(z) e^{-\alpha z} dz}
+                                      {\int_0^D e^{-\alpha z} dz} \\
+                              &= \frac{z_f \left( \alpha z_f + e^{-\alpha z_f} - 1 \right)}
+                                      {\alpha \left( 1 - e^{-\alpha D} \right)}.
+\end{align}
+The thickness of the depletion region or the field-free region is difficult
+to measure, and depends on the voltage applied to the sensor and the charge
+collected at the terminals \citep{Stern2004}.
+
+However, \citet{Stern2004} did measure the size of the charge diffusion kernel,
+for two discrete wavelengths, of a \goesCcdThickness-thick 
+(100 $\Omega$-cm resistivity) \CCD for the GOES Soft X-ray Imager.
+We can use these measurements to estimate the size of the depletion region
+and model the size of the charge diffusion kernel as a function of wavelength.
+\cite{Stern2004} didn't directly measure the size of the charge diffusion kernel,
+instead they measured a quantity they named the \MCC, the fraction of charge
+captured by the central pixel.
+Naively, the \MCC\ would be the integral of the charge diffusion kernel over the
+extent of a pixel.
+However, since a photon can strike anywhere within the central pixel,
+we need to convolve with a rectangle function the width of a pixel before
+integrating.
+So, our definition for the \MCC\ is
+\begin{equation}
+    P_\text{MCC} = \left\{ \frac{1}{d} \int_{-d/2}^{d/2} \left[ K(x') * \Pi \left( \frac{x'}{d} \right) \right](x) \, dx \right\}^2,
+\end{equation}
+where $K(x)$ is the charge diffusion kernel,
+$\Pi(x)$ is the rectangle function,
+and $d$ is the width of a pixel.
+If we assume that the charge diffusion kernel is a Gaussian with standard
+deviation $\overline{\sigma}_\text{cd}$,
+\begin{equation}
+    K(x) = \frac{1}{\sqrt{2\pi} \overline{\sigma}_\text{cd}} \exp \left( -\frac{x^2}{2 \overline{\sigma}_\text{cd}^2} \right),
+\end{equation}
+then we can analytically solve for the \MCC,
+\begin{equation}
+    \label{eq:mcc}
+    P_\text{MCC} = \left\{ \sqrt{\frac{2}{\pi}} \frac{\overline{\sigma}_\text{cd}}{d} \left[ \exp \left( -\frac{d^2}{2 \overline{\sigma}_\text{cd}^2} \right) - 1 \right] + \text{erf} \left( \frac{d}{\sqrt{2} \overline{\sigma}_\text{cd}} \right) \right\}^2,
+\end{equation}
+where $\text{erf}(x)$ is the error function.
+
+In the top panel of Figure~\ref{fig:chargeDiffusion},
+we can have plotted a fit of Equation~\ref{eq:mcc} to the measurements in 
+\citet{Stern2004} which found $z_d=\depletionThickness$ best matched the data.
+Given the simplicity of our model, 
+the fit is surprisingly much better than the models shown in \cite{Stern2004}.
+In the lower panel of Figure~\ref{fig:chargeDiffusion},
+we've plotted the corresponding standard deviation of the charge diffusion
+kernel as a function of wavelength which predicts that the charge diffusion is
+reasonably constant over much of the soft X-ray and ultraviolet wavelengths
+since the penetration depth is low in this regime.
+"""
+    )
+    subsubsection_charge_spreading.append(ccd_snr.figures.charge_diffusion())
+    subsection_noise.append(subsubsection_charge_spreading)
     result.append(subsection_noise)
     result.append(ccd_snr.tables.fano_factor())
     return result

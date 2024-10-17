@@ -44,4 +44,12 @@ def variables() -> list[aastex.Command]:
             name="fanoFactor",
             value=ccd.fano_noise.value,
         ),
+        aastex.Variable(
+            name="goesCcdThickness",
+            value=ccd.depletion.thickness_substrate,
+        ),
+        aastex.Variable(
+            name="depletionThickness",
+            value=np.round(ccd.depletion.thickness, 1),
+        )
     ]
